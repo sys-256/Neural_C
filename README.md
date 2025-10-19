@@ -1,33 +1,44 @@
 # Neural_S
 
 ## Todo
-- Use different number of nodes for hidden layer
+- Test model against test dataset
 
-dataset download link: https://systemds.apache.org/datasets/mnist
-explanation video/tutorial: https://www.youtube.com/watch?v=w8yWXqWQYmU&t=218s
-reference notebook: https://www.kaggle.com/code/wwsalmon/simple-mnist-nn-from-scratch-numpy-no-tf-keras
+## Resources
+- Basic neural network: https://www.geeksforgeeks.org/numpy/implementation-of-neural-network-from-scratch-using-numpy/
+- Dataset download link: https://systemds.apache.org/datasets/mnist
+- Explanation video/tutorial: https://www.youtube.com/watch?v=w8yWXqWQYmU&t=218s
+- Reference notebook: https://www.kaggle.com/code/wwsalmon/simple-mnist-nn-from-scratch-numpy-no-tf-keras
 
-28x28 images -> 784 pixels (all between 0 and 256). m training images
-0th layer, input layer, 784 nodes (1 per pixel)
-1st layer, hidden layer, 10 nodes
-2nd layer, output layer, 10 nodes (1 per digit)
+## Implementation
+### Layers
+- m training images
+- 28x28 images -> 784 pixels (all in range [0, 255])
+- 0th layer: input layer, 784 nodes (1 per pixel)
+- 1st layer: hidden layer, 20 nodes
+- 2nd layer: output layer, 10 nodes (1 per digit)
 
-A0 = x (784*m) -> activated 0th layer
-Z1 = W1*A0+B1 -> unactivated 1st layer. W1 is weights, B1 is biases
-A1 = g(Z1) = ReLU(Z1) -> activated 1st layer. ReLU is activation function
-Z2 = W2*A1+B2 -> unactivated 2nd layer. W2 is weights. B2 is biases
-A2 = Softmax(Z2) -> activated 2nd layer
+### Feed forward
+```py
+A0 = x # Activated 0th layer
+Z1 = W1*A0 # Unactivated 1st layer, W1 is weights
+A1 = g(Z1) = ReLU(Z1) # Activated 1st layer, ReLU is activation function
+Z2 = W2*A1 # Unactivated 2nd layer, W2 is weights
+A2 = Softmax(Z2) # Activated 2nd layer, Softmax is activation function
+```
 
+### Back propagation
+```py
 dZ2 = A2-Y
-dW2 = (1/m) * dZ2 * (A1)^T
-dB2 = (1/m) * sum(dZ2)
+dW2 = (A1).T * dZ2
+dZ1 = dZ2 * W2^T * g_prime(Z1) # g' is derivate of activation function
+dW1 = (x).T * dZ1
+```
 
-dZ1 = (W2)^T * dZ2 .* g'(Z1) -> g' is derivate of activation function, not sure what .* does, maybe dot product?
-dW1 = (1/m) * dZ1 * (x)^T
-dB1 = (1/m) * sum(dZ1)
+### Updating weights
+```py
+W1 -= alpha * dW1 # alpha is the learning rate
+W2 -= alpha * dW2
+```
 
-W1 = W1 - alpha * dW1
-B1 = B1 - alpha * dB1
-W2 = W2 - alpha * dW2
-B2 = B2 - alpha * dB2
-alpha -> learning rate TODO what's a common value
+### Training the model
+We loop through all the images, and follow the above steps for each image. We repeat this process multiple times to further improve the accuracy.
