@@ -47,19 +47,22 @@ labels_test = np.array([np.array([1 if i == labels_test[j] else 0 for i in range
 
 # Initialize random weights
 def generate_weights(rows: int, columns: int):
-	return np.random.randn(rows, columns)
+	return np.random.rand(rows, columns)
 
 # Activation functions
+# Must be preserved: z
 def ReLU(z: NDArray[np.float64]) -> NDArray[np.float64]:
 	if z.shape != (1, n_hidden):
 		raise ValueError()
 	return np.maximum(0, z)
 
+# Can be changed: z
 def ReLU_prime(z: NDArray[np.float64]) -> NDArray[np.bool]:
 	if z.shape != (1, n_hidden):
 		raise ValueError()
 	return z > 0
 
+# Can be changed: z
 def softmax(z: NDArray[np.float64]) -> NDArray[np.float64]:
 	if z.shape != (1, n_output):
 		raise ValueError()
@@ -67,8 +70,9 @@ def softmax(z: NDArray[np.float64]) -> NDArray[np.float64]:
 	return np.exp(z) / np.sum(np.exp(z))
 
 # Feed forward algorithm
+# Must be preserved: x, w1, w2
 def feed_forward(x: NDArray[np.float64], w1: NDArray[np.float64], w2: NDArray[np.float64]
-                 ) -> tuple[NDArray[np.float64], NDArray[np.float64], NDArray[np.float64], NDArray[np.float64]]:
+                 ) -> tuple[NDArray[np.float64], NDArray[np.float64], NDArray[np.float64]]:
 	if x.shape != (1, n_input):
 		raise ValueError()
 	if w1.shape != (n_input, n_hidden):
@@ -79,9 +83,11 @@ def feed_forward(x: NDArray[np.float64], w1: NDArray[np.float64], w2: NDArray[np
 	a1 = ReLU(z1)		# Activated hidden layer
 	z2 = a1.dot(w2)		# Unactivated output layer
 	a2 = softmax(z2)	# Activated output layer
-	return z1, a1, z2, a2
+	return z1, a1, a2 # z2 isn't used in any of the function calls
 
 # Back propagation of error algorithm
+# Must be preserved: x, y
+# Can be changed: w1, w2
 def back_propagation(x: NDArray[np.float64], y: NDArray[np.uint8], w1: NDArray[np.float64], w2: NDArray[np.float64], alpha: float):
 	if x.shape != (1, n_input):
 		raise ValueError()
@@ -91,7 +97,7 @@ def back_propagation(x: NDArray[np.float64], y: NDArray[np.uint8], w1: NDArray[n
 		raise ValueError()
 	if w2.shape != (n_hidden, n_output):
 		raise ValueError()
-	z1, a1, _, a2 = feed_forward(x, w1, w2)
+	z1, a1, a2 = feed_forward(x, w1, w2)
 	
 	# Error in output layer
 	dz2 = a2 - y
@@ -108,11 +114,14 @@ def back_propagation(x: NDArray[np.float64], y: NDArray[np.uint8], w1: NDArray[n
 	return w1, w2
 
 # Get most likely number
+# Must be preserved: z
 def get_predictions(z: NDArray[np.float64]):
 	if z.shape != (1, n_output):
 		raise ValueError()
 	return int(np.argmax(z))
 
+# Must be preserved: x, y
+# Can be changed: w1, w2
 def train(x: NDArray[np.float64], y: NDArray[np.uint8], w1: NDArray[np.float64], w2: NDArray[np.float64], alpha: float, iterations: int):
 	if x.shape != (m, 1, n_input):
 		raise ValueError()
@@ -127,7 +136,7 @@ def train(x: NDArray[np.float64], y: NDArray[np.uint8], w1: NDArray[np.float64],
 	for i in range(iterations):
 		predictions: list[bool] = []
 		for j in range(len(x)):
-			_, _, _, a2 = feed_forward(x[j], w1, w2)
+			_, _, a2 = feed_forward(x[j], w1, w2)
 
 			# On the last iteration, show all numbers it got incorrectly
 			# if (i+1 == iterations and get_predictions(a2) != np.argmax(y[j])):
@@ -143,6 +152,7 @@ def train(x: NDArray[np.float64], y: NDArray[np.uint8], w1: NDArray[np.float64],
 
 	return accuracy, w1, w2
 
+# Must be preserved: x, y, w1, w2
 def test_model(x: NDArray[np.float64], y: NDArray[np.uint8], w1: NDArray[np.float64], w2: NDArray[np.float64]):
 	if x.shape != (m_test, 1, n_input):
 		raise ValueError()
@@ -155,12 +165,13 @@ def test_model(x: NDArray[np.float64], y: NDArray[np.uint8], w1: NDArray[np.floa
 
 	predictions: list[bool] = []
 	for j in range(len(x)):
-		_, _, _, a2 = feed_forward(x[j], w1, w2)
+		_, _, a2 = feed_forward(x[j], w1, w2)
 		predictions.append(get_predictions(a2) == np.argmax(y[j]))
 
 	print("\nAccuracy on test set:", 100 * np.sum(predictions) / len(x))
 	return
 
+# Must be preserved: x, w1, w2
 def predict(x: NDArray[np.float64], w1: NDArray[np.float64], w2: NDArray[np.float64]):
 	if x.shape != (1, n_input):
 		raise ValueError()
@@ -168,7 +179,7 @@ def predict(x: NDArray[np.float64], w1: NDArray[np.float64], w2: NDArray[np.floa
 		raise ValueError()
 	if w2.shape != (n_hidden, n_output):
 		raise ValueError()
-	_, _, _, a2 = feed_forward(x, w1, w2)
+	_, _, a2 = feed_forward(x, w1, w2)
 	k = get_predictions(a2)
 	print("Number:", k)
 
