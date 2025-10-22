@@ -1,7 +1,7 @@
 # Neural_S
 
 ## Todo
-- Test model against test dataset
+- Rewrite in C
 
 ## Resources
 - Basic neural network: https://www.geeksforgeeks.org/numpy/implementation-of-neural-network-from-scratch-using-numpy/
