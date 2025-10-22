@@ -60,14 +60,15 @@ def ReLU_prime(z: NDArray[np.float64]) -> NDArray[np.bool]:
 		raise ValueError()
 	return z > 0
 
-def softmax(z: NDArray[np.float64]):
+def softmax(z: NDArray[np.float64]) -> NDArray[np.float64]:
 	if z.shape != (1, n_output):
 		raise ValueError()
 	z -= np.max(z)
 	return np.exp(z) / np.sum(np.exp(z))
 
 # Feed forward algorithm
-def feed_forward(x: NDArray[np.float64], w1: NDArray[np.float64], w2: NDArray[np.float64]):
+def feed_forward(x: NDArray[np.float64], w1: NDArray[np.float64], w2: NDArray[np.float64]
+                 ) -> tuple[NDArray[np.float64], NDArray[np.float64], NDArray[np.float64], NDArray[np.float64]]:
 	if x.shape != (1, n_input):
 		raise ValueError()
 	if w1.shape != (n_input, n_hidden):
@@ -129,10 +130,10 @@ def train(x: NDArray[np.float64], y: NDArray[np.uint8], w1: NDArray[np.float64],
 			_, _, _, a2 = feed_forward(x[j], w1, w2)
 
 			# On the last iteration, show all numbers it got incorrectly
-			if (i+1 == iterations and get_predictions(a2) != np.argmax(y[j])):
-				print("Prediction:", get_predictions(a2), "Actual:", np.argmax(y[j]))
-				plt.imshow(x[j].reshape(28, 28))
-				plt.show()
+			# if (i+1 == iterations and get_predictions(a2) != np.argmax(y[j])):
+			# 	print("Prediction:", get_predictions(a2), "Actual:", np.argmax(y[j]))
+			# 	plt.imshow(x[j].reshape(28, 28))
+			# 	plt.show()
 			predictions.append(get_predictions(a2) == np.argmax(y[j]))
 			w1, w2 = back_propagation(x[j], y[j], w1, w2, alpha)
 
@@ -141,6 +142,24 @@ def train(x: NDArray[np.float64], y: NDArray[np.uint8], w1: NDArray[np.float64],
 		accuracy.append(100 * np.sum(predictions) / len(x))
 
 	return accuracy, w1, w2
+
+def test_model(x: NDArray[np.float64], y: NDArray[np.uint8], w1: NDArray[np.float64], w2: NDArray[np.float64]):
+	if x.shape != (m_test, 1, n_input):
+		raise ValueError()
+	if y.shape != (m_test, 1, n_output):
+		raise ValueError()
+	if w1.shape != (n_input, n_hidden):
+		raise ValueError()
+	if w2.shape != (n_hidden, n_output):
+		raise ValueError()
+
+	predictions: list[bool] = []
+	for j in range(len(x)):
+		_, _, _, a2 = feed_forward(x[j], w1, w2)
+		predictions.append(get_predictions(a2) == np.argmax(y[j]))
+
+	print("\nAccuracy on test set:", 100 * np.sum(predictions) / len(x))
+	return
 
 def predict(x: NDArray[np.float64], w1: NDArray[np.float64], w2: NDArray[np.float64]):
 	if x.shape != (1, n_input):
@@ -155,6 +174,7 @@ def predict(x: NDArray[np.float64], w1: NDArray[np.float64], w2: NDArray[np.floa
 
 # Generate weights
 m = len(data)
+m_test = len(data_test)
 n_input = data.shape[2]
 n_hidden = 20
 n_output = labels.shape[2]
@@ -170,4 +190,4 @@ plt.ylabel("Accuracy")
 plt.xlabel("Iterations")
 plt.show()
 
-# TODO use test data set
+test_model(data_test, labels_test, w1, w2)
