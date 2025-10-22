@@ -1,8 +1,35 @@
 #include "read_idx.h"
+#include "libmatrix.h"
 #include <stdio.h>
 #include <stdlib.h>
 
 int main() {
+    double *data_in, *data_out;
+    size_t data_in_size, data_out_size;
+
+    libmatrix_generate_weights(3, 5, &data_in, &data_in_size);
+    libmatrix_relu(data_in, data_in_size, &data_out, &data_out_size);
+    
+    for (size_t i = 0; i < data_out_size; i++) {
+        printf("%1.3f ", *(data_out+i));
+    }
+    printf("\n");
+    free(data_in);
+    free(data_out);
+
+    double data_relu[] = {-0.33, 0.33, 0, -28394, 281022};
+    libmatrix_relu_prime(data_relu, 5);
+    for (size_t i = 0; i < 5; i++) {
+        printf("%1.3f ", *(data_relu+i));
+    }
+
+    double data_softmax[] = {557.32599628, 656.53432109, 737.34115319, 741.98236534, 537.17001307,
+                    706.15147083, 420.91040211, 622.37374273, 122.03657538, 706.17970965};
+    libmatrix_softmax(data_softmax, 10);
+    for (size_t i = 0; i < 10; i++) {
+        printf("%1.30f\n", *(data_softmax+i));
+    }
+
     uint8_t *data;
     size_t data_size;
     
