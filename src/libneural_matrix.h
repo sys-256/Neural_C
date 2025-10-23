@@ -54,9 +54,8 @@ uint8_t libneural_matrix_const_product(double *input, size_t input_size, double 
  * input1 - The first matrix
  * input2 - The matrix to subtract from the first
  * input_size - The amount of elements in the matrices
- * output - A pointer to where the resulting matrix should be written to
  */
-uint8_t libneural_matrix_minus(double *input1, double *input2, size_t input_size, double **output);
+uint8_t libneural_matrix_minus(double *input1, double *input2, size_t input_size);
 
 
 #endif // LIBNEURAL_MATRIX_H

@@ -7,6 +7,8 @@
 #include "libneural_train.h"
 
 int main() {
+    // TODO: set pointers to NULL after free
+
     // START: test libneural_helper_generate_weights, libneural_helper_relu
     double *relu_data_in, *relu_data_out;
 
@@ -128,32 +130,49 @@ int main() {
     double minus_in1_buf[] = {1.0, 2.6, 3.2, 4.0, 5.0, 6.0};
     double minus_in2_buf[] = {1.0, 3.4, 5.1, 2.1, 4.0, 6.0};
     size_t minus_in_rows = 3, minus_in_cols = 2;
-    double *minus_out_buf;
 
-    libneural_matrix_minus(minus_in1_buf, minus_in2_buf, minus_in_rows * minus_in_cols, &minus_out_buf);
+    libneural_matrix_minus(minus_in1_buf, minus_in2_buf, minus_in_rows * minus_in_cols);
     printf("libneural_matrix_minus:\n");
     for (size_t i = 0; i < minus_in_rows; i++) {
         for (size_t j = 0; j < minus_in_cols; j++) {
-            printf("%1.2f ", *(minus_out_buf+minus_in_cols*i+j));
+            printf("%1.2f ", *(minus_in1_buf+minus_in_cols*i+j));
         }
         printf("\n");
     }
     printf("\n");
-    free(minus_out_buf);
     // END: test libneural_matrix_minus
-
-    // START: test libneural_train_feed_forward
+    
+    // START: test libneural_train_feed_forward, libneural_train_back_propgation
     // Test with 3-5-2 model and random input and weights
-    double feed_forward_input[] = {0.840, 0.394, 0.783};
-    double feed_forward_w1[] = {0.197, 0.996, 0.422, 0.208, 0.689, 0.566, 0.392, 0.981, 0.768, 0.748, 0.734, 0.445, 0.759, 0.965, 0.452};
-    double feed_forward_w2[] = {0.806, 0.800, 0.804, 0.131, 0.141, 0.912, 0.084, 0.624, 0.238, 0.373};
-    double *feed_forward_z1, *feed_forward_a1, *feed_forward_a2;
-    libneural_train_feed_forward(feed_forward_input, feed_forward_w1, feed_forward_w2, 3, 5, 2, &feed_forward_z1, &feed_forward_a1, &feed_forward_a2);
-    printf("libneural_train_feed_forward: %.15f %0.15f\n", *(feed_forward_a2), *(feed_forward_a2+1));
+    double back_prop_input[] = {0.840, 0.394, 0.783};
+    double back_prop_w1[] = {0.197, 0.996, 0.422, 0.208, 0.689, 0.566, 0.392, 0.981, 0.768, 0.748, 0.734, 0.445, 0.759, 0.965, 0.452};
+    double back_prop_w2[] = {0.806, 0.800, 0.804, 0.131, 0.141, 0.912, 0.084, 0.624, 0.238, 0.373};
+    double back_prop_output[] = {0, 1};
+    double *back_prop_z1, *back_prop_a1, *back_prop_a2;
+    
+    libneural_train_feed_forward(back_prop_input, back_prop_w1, back_prop_w2, 3, 5, 2, &back_prop_z1, &back_prop_a1, &back_prop_a2);
+    printf("libneural_train_feed_forward: %.15f %0.15f\n", *(back_prop_a2), *(back_prop_a2+1));
+    
+    libneural_train_back_propagation(back_prop_input, back_prop_w1, back_prop_w2, back_prop_output, 3, 5, 2, 0.5);
+    printf("updated w1: ");
+    for (size_t i = 0; i < 3*5; i++) {
+        printf("%1.3f ", *(back_prop_w1+i));
+    }
     printf("\n");
-    free(feed_forward_z1);
-    free(feed_forward_a1);
-    free(feed_forward_a2);
+    printf("updated w2: ");
+    for (size_t i = 0; i < 5*2; i++) {
+        printf("%1.3f ", *(back_prop_w2+i));
+    }
+    printf("\n");
+    printf("\n");
+    
+    free(back_prop_z1);
+    free(back_prop_a1);
+    free(back_prop_a2);
+    back_prop_z1 = NULL;
+    back_prop_a1 = NULL;
+    back_prop_a2 = NULL;
+    // END: test libneural_train_feed_forward, libneural_train_back_propgation
 
     // START: test read_idx
     uint8_t *idx_data;

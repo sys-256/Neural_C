@@ -183,6 +183,18 @@ def predict(x: NDArray[np.float64], w1: NDArray[np.float64], w2: NDArray[np.floa
 	k = get_predictions(a2)
 	print("Number:", k)
 
+# n_input = 3
+# n_hidden = 5
+# n_output = 2
+# input = np.array((0.840, 0.394, 0.783)).reshape(1,3)
+# w1 = np.array((0.197, 0.996, 0.422, 0.208, 0.689, 0.566, 0.392, 0.981, 0.768, 0.748, 0.734, 0.445, 0.759, 0.965, 0.452)).reshape(3,5)
+# w2 = np.array((0.806, 0.800, 0.804, 0.131, 0.141, 0.912, 0.084, 0.624, 0.238, 0.373)).reshape(5,2)
+# output = np.array((0,1)).reshape(1,2)
+# z1, a1, a2 = feed_forward(input, w1, w2)
+# print(z1, a1, a2)
+# w1, w2 = back_propagation(input, output, w1, w2, 0.5)
+# print(w1, w2)
+
 # Generate weights
 m = len(data)
 m_test = len(data_test)

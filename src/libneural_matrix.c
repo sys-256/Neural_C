@@ -45,13 +45,10 @@ uint8_t libneural_matrix_const_product(double *input, size_t input_size, double 
     return LIBNEURAL_MATRIX_OK;
 }
 
-uint8_t libneural_matrix_minus(double *input1, double *input2, size_t input_size, double **output) {
-    *output = malloc(input_size * sizeof(double)); // Allocate memory, output is of type double
-    if (!*output) return LIBNEURAL_MATRIX_ERR_OOM; // Out of memory
-
-    // Copy input1 element + input2 element into every element of the output
+uint8_t libneural_matrix_minus(double *input1, double *input2, size_t input_size) {
+    // Copy subtract element2 from every element1
     for (size_t i = 0; i < input_size; i++) {
-        *(*output+i) = *(input1+i) - *(input2+i);
+        *(input1+i) -= *(input2+i);
     }
     return LIBNEURAL_MATRIX_OK;
 }
