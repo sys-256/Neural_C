@@ -31,6 +31,15 @@ uint8_t libneural_matrix_transpose(double *input, size_t input_rows, size_t inpu
 uint8_t libneural_matrix_dot_product(double *input1, size_t input1_rows, size_t input1_cols, double *input2, size_t input2_cols, double **output);
 
 /**
+ * Multiplied every value in input1 by the corresponding element in input2
+ * 
+ * input1 - The matrix that will be modified
+ * input2 - The values that input1 will be multiplied by
+ * input_size - The amount of elements in the matrices
+ */
+uint8_t libneural_matrix_hadamard_product(double *input1, double *input2, size_t input_size);
+
+/**
  * Multiplies every value in the matrix by a given constant
  * 
  * input - The matrix to multiply with

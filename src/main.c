@@ -81,7 +81,7 @@ int main() {
     free(transpose_out_buf);
     // END: test libneural_matrix_transpose
     
-    // START: test libneural_matrix_dot_product, libneural_matrix_const_product
+    // START: test libneural_matrix_dot_product, libneural_matrix_hadamard_product, libneural_matrix_const_product
     double dot_in1_buf[] = {1.0, 2.0, 3.0, 4.0, 5.0, 6.0};
     size_t dot_in1_rows = 3, dot_in1_cols = 2;
     double dot_in2_buf[] = {1.0, 3.0, 5.0, 2.0, 4.0, 6.0};
@@ -97,18 +97,30 @@ int main() {
         printf("\n");
     }
     printf("\n");
-    
-    double *const_out_buf;
-    libneural_matrix_const_product(dot_out_buf, dot_in1_rows * dot_in2_cols, 0.5, &const_out_buf);
-    printf("libneural_matrix_const_product:\n");
-    for (size_t i = 0; i < dot_in2_cols; i++) {
-        for (size_t j = 0; j < dot_in2_cols; j++) {
-            printf("%1.2f ", *(const_out_buf+dot_in2_cols*i+j));
+
+    double hadamard_in1_buf[] = {1.0, 2.0, 3.0, 4.0, 5.0, 6.0};
+    double hadamard_in2_buf[] = {1.5, 2.5, 3.5, 4.5, 5.5, 6.5};
+    size_t hadamard_size = 6;
+    libneural_matrix_hadamard_product(hadamard_in1_buf, hadamard_in2_buf, hadamard_size);
+    printf("libneural_matrix_hadamard_product:\n");
+    for (size_t i = 0; i < 3; i++) {
+        for (size_t j = 0; j < 2; j++) {
+            printf("%1.2f ", *(hadamard_in1_buf+2*i+j));
         }
         printf("\n");
     }
     printf("\n");
-    free(const_out_buf);
+
+    
+    libneural_matrix_const_product(dot_out_buf, dot_in1_rows * dot_in2_cols, 0.5);
+    printf("libneural_matrix_const_product:\n");
+    for (size_t i = 0; i < dot_in2_cols; i++) {
+        for (size_t j = 0; j < dot_in2_cols; j++) {
+            printf("%1.2f ", *(dot_out_buf+dot_in2_cols*i+j));
+        }
+        printf("\n");
+    }
+    printf("\n");
     free(dot_out_buf);
     // END: test libneural_matrix_dot_product, libneural_matrix_const_product
     
@@ -136,7 +148,7 @@ int main() {
     double feed_forward_w1[] = {0.197, 0.996, 0.422, 0.208, 0.689, 0.566, 0.392, 0.981, 0.768, 0.748, 0.734, 0.445, 0.759, 0.965, 0.452};
     double feed_forward_w2[] = {0.806, 0.800, 0.804, 0.131, 0.141, 0.912, 0.084, 0.624, 0.238, 0.373};
     double *feed_forward_z1, *feed_forward_a1, *feed_forward_a2;
-    libneural_train_feed_forward(feed_forward_input, 3, feed_forward_w1, 5, feed_forward_w2, 2, &feed_forward_z1, &feed_forward_a1, &feed_forward_a2);
+    libneural_train_feed_forward(feed_forward_input, feed_forward_w1, feed_forward_w2, 3, 5, 2, &feed_forward_z1, &feed_forward_a1, &feed_forward_a2);
     printf("libneural_train_feed_forward: %.15f %0.15f\n", *(feed_forward_a2), *(feed_forward_a2+1));
     printf("\n");
     free(feed_forward_z1);

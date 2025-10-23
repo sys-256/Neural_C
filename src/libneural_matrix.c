@@ -29,6 +29,14 @@ uint8_t libneural_matrix_dot_product(double *input1, size_t input1_rows, size_t 
     return LIBNEURAL_MATRIX_OK;
 }
 
+uint8_t libneural_matrix_hadamard_product(double *input1, double *input2, size_t input_size) {
+    // Copy element1 * element2 into every element
+    for (size_t i = 0; i < input_size; i++) {
+        *(input1+i) *= *(input2+i);
+    }
+    return LIBNEURAL_MATRIX_OK;
+}
+
 uint8_t libneural_matrix_const_product(double *input, size_t input_size, double constant) {
     // Copy element * constant into every element
     for (size_t i = 0; i < input_size; i++) {
