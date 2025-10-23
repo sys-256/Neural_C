@@ -67,6 +67,24 @@ int main() {
     printf("\n");
     free(const_out_buf);
     free(dot_out_buf);
+    
+    double add_in1_buf[] = {1.0, 2.6, 3.2, 4.0, 5.0, 6.0};
+    size_t add_in1_rows = 3, add_in1_cols = 2;
+    double add_in2_buf[] = {1.0, 3.4, 5.1, 2.1, 4.0, 6.0};
+    size_t add_in2_rows = 3, add_in2_cols = 2;
+    double *add_out_buf;
+    size_t add_out_size;
+
+    libmatrix_minus(add_in1_buf, add_in1_rows * add_in1_cols, add_in2_buf, add_in2_rows * add_in2_cols, &add_out_buf, &add_out_size);
+    for (size_t i = 0; i < add_in1_rows; i++) {
+        for (size_t j = 0; j < add_in1_cols; j++) {
+            printf("%1.2f ", *(add_out_buf+add_in1_cols*i+j));
+        }
+        printf("\n");
+    }
+    printf("\n");
+    printf("\n");
+    free(add_out_buf);
 
     double data_relu[] = {-0.33, 0.33, 0, -28394, 281022};
     libmatrix_relu_prime(data_relu, 5);

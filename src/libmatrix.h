@@ -92,4 +92,17 @@ uint8_t libmatrix_dot_product(double *in1_buf, size_t in1_rows, size_t in1_cols,
  */
 uint8_t libmatrix_const_product(double *in_buf, size_t in_size, double constant, double **out_buf, size_t *out_size);
 
+/**
+ * Subtracts two given matrices
+ * 
+ * in1_buf - The first matrix
+ * in1_size - The amount of elements in that matrix
+ * in2_buf - The matrix to subtract from the first
+ * in2_size - The amount of elements in that matrix
+ * out_buf - A pointer to where the resulting matrix should be written to
+ * out_size - A pointer to where the amount of elements in that matrix should be written to
+ */
+uint8_t libmatrix_minus(double *in1_buf, size_t in1_size, double *in2_buf, size_t in2_size, double **out_buf, size_t *out_size);
+
+
 #endif // LIBMATRIX_H

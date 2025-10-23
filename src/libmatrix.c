@@ -135,3 +135,17 @@ uint8_t libmatrix_const_product(double *in_buf, size_t in_size, double constant,
     }
     return LIBMATRIX_OK;
 }
+
+uint8_t libmatrix_minus(double *in1_buf, size_t in1_size, double *in2_buf, size_t in2_size, double **out_buf, size_t *out_size) {
+    // Assume in1_size == in2_size
+
+    *out_size = in1_size;
+    *out_buf = malloc(*out_size * sizeof(double)); // Allocate memory, out_buf is of type double
+    if (!*out_buf) return LIBMATRIX_ERR_OOM; // Out of memory
+
+    // Copy input1 element + input2 element into every element of the output
+    for (size_t i = 0; i < *out_size; i++) {
+        *(*out_buf+i) = *(in1_buf+i) - *(in2_buf+i);
+    }
+    return LIBMATRIX_OK;
+}
