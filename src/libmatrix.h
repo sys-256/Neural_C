@@ -17,7 +17,7 @@
  * out_buf - A pointer to the matrix to be written to
  * out_size - A pointer to the number of elements in the matrix to be written to
  */
-int libmatrix_generate_weights(uint64_t rows, uint64_t columns, double **out_buf, size_t *out_size);
+uint8_t libmatrix_generate_weights(uint64_t rows, uint64_t columns, double **out_buf, size_t *out_size);
 
 /**
  * Applies ReLU on every element in a flattened matrix
@@ -27,7 +27,7 @@ int libmatrix_generate_weights(uint64_t rows, uint64_t columns, double **out_buf
  * out_buf - A pointer to the matrix to be written to
  * out_size - A pointer to the number of elements in the matrix to be written to
  */
-int libmatrix_relu(double *in_buf, size_t in_size, double **out_buf, size_t *out_size);
+uint8_t libmatrix_relu(double *in_buf, size_t in_size, double **out_buf, size_t *out_size);
 
 /**
  * Applies the derivative of ReLU on every element in a flattened matrix
@@ -35,7 +35,7 @@ int libmatrix_relu(double *in_buf, size_t in_size, double **out_buf, size_t *out
  * buf - The matrix to modify
  * size - The number of elements in the matrix to modify
  */
-int libmatrix_relu_prime(double *buf, size_t size);
+uint8_t libmatrix_relu_prime(double *buf, size_t size);
 
 /**
  * Applies softmax to a flattened matrix
@@ -43,7 +43,7 @@ int libmatrix_relu_prime(double *buf, size_t size);
  * buf - The matrix to modify
  * size - The number of elements in the matrix to modify
  */
-int libmatrix_softmax(double *buf, size_t size);
+uint8_t libmatrix_softmax(double *buf, size_t size);
 
 /**
  * Gets the index of the highest value in a flattened matrix
@@ -52,7 +52,7 @@ int libmatrix_softmax(double *buf, size_t size);
  * size - The number of elements in the matrix to read from
  * result - A pointer to where the highest index should be written to
  */
-int libmatrix_predict(double *buf, size_t size, size_t *result);
+uint8_t libmatrix_predict(double *buf, size_t size, size_t *result);
 
 /**
  * Transposes the given matrix
@@ -64,6 +64,6 @@ int libmatrix_predict(double *buf, size_t size, size_t *result);
  * out_rows - A pointer to where the amount of rows in that matrix should be written to
  * out_cols - A pointer to where the amount of columns in that matrix should be written to
  */
-int libmatrix_transpose(double *in_buf, size_t in_rows, size_t in_cols, double **out_buf, size_t *out_rows, size_t *out_cols);
+uint8_t libmatrix_transpose(double *in_buf, size_t in_rows, size_t in_cols, double **out_buf, size_t *out_rows, size_t *out_cols);
 
 #endif // LIBMATRIX_H

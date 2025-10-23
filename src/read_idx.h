@@ -17,6 +17,6 @@
  * out_buf - A pointer to the array to be written to
  * out_size - A pointer to the number of elements in the array to be written to
  */
-int read_idx(char *filename, uint8_t **out_buf, size_t *out_size);
+uint8_t read_idx(char *filename, uint8_t **out_buf, size_t *out_size);
 
 #endif // READ_IDX_H

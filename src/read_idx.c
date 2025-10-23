@@ -2,7 +2,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-int read_idx(char *filename, uint8_t **out_buf, size_t *out_size) {
+uint8_t read_idx(char *filename, uint8_t **out_buf, size_t *out_size) {
     // Make sure a pointer for buffer and size were provided
     if (out_buf == NULL || out_size == NULL) return READ_IDX_ERR_FORMAT;
 
