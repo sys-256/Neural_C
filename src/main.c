@@ -30,6 +30,11 @@ int main() {
         printf("%1.30f\n", *(data_softmax+i));
     }
 
+    double data_predict[] = {557.32599628, 656.53432109, 741.98236534, 737.34115319};
+    size_t result_predict;
+    libmatrix_predict(data_predict, 4, &result_predict);
+    printf("%ld: %1.30f\n", result_predict, *(data_predict+result_predict));
+
     uint8_t *data;
     size_t data_size;
     

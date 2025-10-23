@@ -4,7 +4,7 @@
 
 
 int libmatrix_generate_weights(uint64_t rows, uint64_t columns, double **out_buf, size_t *out_size) {
-    // The starting weights can be the same each time, so don't seed
+    // The starting weights may be the same each time, so don't seed
     
     *out_size = rows * columns;
     *out_buf = malloc(*out_size * sizeof(double)); // Allocate memory, out_buf is of type double
@@ -74,6 +74,20 @@ int libmatrix_softmax(double *buf, size_t size) {
     // Divide every element by sum
     for (size_t i = 0; i < size; i++) {
         *(buf+i) /= sum;
+    }
+    return LIBMATRIX_OK;
+}
+
+int libmatrix_predict(double *buf, size_t size, size_t *result) {
+    if (size < 1) { // Flattened matrix needs at least one element
+        return LIBMATRIX_ERR_INPUT;
+    }
+
+    *result = 0; // Initialize with first element of matrix
+    for (size_t i = 1; i < size; i++) { // We know the first element isn't larger than max, so start at i=1
+        if (*(buf+i) > *(buf+*result)) {
+            *result = i;
+        }
     }
     return LIBMATRIX_OK;
 }
