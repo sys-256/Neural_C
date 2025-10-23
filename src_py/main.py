@@ -69,6 +69,13 @@ def softmax(z: NDArray[np.float64]) -> NDArray[np.float64]:
 	z -= np.max(z)
 	return np.exp(z) / np.sum(np.exp(z))
 
+# Get most likely number
+# Must be preserved: z
+def get_predictions(z: NDArray[np.float64]):
+	if z.shape != (1, n_output):
+		raise ValueError()
+	return int(np.argmax(z))
+
 # Feed forward algorithm
 # Must be preserved: x, w1, w2
 def feed_forward(x: NDArray[np.float64], w1: NDArray[np.float64], w2: NDArray[np.float64]
@@ -112,13 +119,6 @@ def back_propagation(x: NDArray[np.float64], y: NDArray[np.uint8], w1: NDArray[n
 	w1 -= alpha * dw1
 
 	return w1, w2
-
-# Get most likely number
-# Must be preserved: z
-def get_predictions(z: NDArray[np.float64]):
-	if z.shape != (1, n_output):
-		raise ValueError()
-	return int(np.argmax(z))
 
 # Must be preserved: x, y
 # Can be changed: w1, w2
