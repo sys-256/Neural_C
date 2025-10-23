@@ -3,7 +3,7 @@
 
 #include "libneural_helper.h"
 
-uint8_t libneural_helper_generate_weights(uint64_t rows, uint64_t columns, double **output) {
+uint8_t libneural_helper_generate_weights(size_t rows, size_t columns, double **output) {
     // The starting weights may be the same each time, so don't seed
     
     *output = malloc(rows * columns * sizeof(double)); // Allocate memory, output is of type double

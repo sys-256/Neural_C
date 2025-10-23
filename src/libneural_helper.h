@@ -16,7 +16,7 @@
  * columns - The amount of columns in the matrix
  * output - A pointer to where the matrix should be written to
  */
-uint8_t libneural_helper_generate_weights(uint64_t rows, uint64_t columns, double **output);
+uint8_t libneural_helper_generate_weights(size_t rows, size_t columns, double **output);
 
 /**
  * Applies ReLU on every element in a flattened matrix

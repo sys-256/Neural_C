@@ -4,6 +4,7 @@
 #include "read_idx.h"
 #include "libneural_helper.h"
 #include "libneural_matrix.h"
+#include "libneural_train.h"
 
 int main() {
     // START: test libneural_helper_generate_weights, libneural_helper_relu
@@ -128,6 +129,19 @@ int main() {
     printf("\n");
     free(minus_out_buf);
     // END: test libneural_matrix_minus
+
+    // START: test libneural_train_feed_forward
+    // Test with 3-5-2 model and random input and weights
+    double feed_forward_input[] = {0.840, 0.394, 0.783};
+    double feed_forward_w1[] = {0.197, 0.996, 0.422, 0.208, 0.689, 0.566, 0.392, 0.981, 0.768, 0.748, 0.734, 0.445, 0.759, 0.965, 0.452};
+    double feed_forward_w2[] = {0.806, 0.800, 0.804, 0.131, 0.141, 0.912, 0.084, 0.624, 0.238, 0.373};
+    double *feed_forward_z1, *feed_forward_a1, *feed_forward_a2;
+    libneural_train_feed_forward(feed_forward_input, 3, feed_forward_w1, 5, feed_forward_w2, 2, &feed_forward_z1, &feed_forward_a1, &feed_forward_a2);
+    printf("libneural_train_feed_forward: %.15f %0.15f\n", *(feed_forward_a2), *(feed_forward_a2+1));
+    printf("\n");
+    free(feed_forward_z1);
+    free(feed_forward_a1);
+    free(feed_forward_a2);
 
     // START: test read_idx
     uint8_t *idx_data;
