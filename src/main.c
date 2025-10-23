@@ -26,18 +26,47 @@ int main() {
     
     for (size_t i = 0; i < in_rows; i++) {
         for (size_t j = 0; j < in_cols; j++) {
-            printf("%1.0f ", *(in_buf+in_cols*i+j));
+            printf("%1.2f ", *(in_buf+in_cols*i+j));
         }
         printf("\n");
     }
     for (size_t i = 0; i < out_rows; i++) {
         for (size_t j = 0; j < out_cols; j++) {
-            printf("%1.0f ", *(out_buf+out_cols*i+j));
+            printf("%1.2f ", *(out_buf+out_cols*i+j));
         }
         printf("\n");
     }
     printf("\n");
     free(out_buf);
+    
+    double dot_in1_buf[] = {1.0, 2.0, 3.0, 4.0, 5.0, 6.0};
+    size_t dot_in1_rows = 3, dot_in1_cols = 2;
+    double dot_in2_buf[] = {1.0, 3.0, 5.0, 2.0, 4.0, 6.0};
+    size_t dot_in2_rows = 2, dot_in2_cols = 3;
+    double *dot_out_buf;
+    size_t dot_out_rows, dot_out_cols;
+
+    libmatrix_dot_product(dot_in1_buf, dot_in1_rows, dot_in1_cols, dot_in2_buf, dot_in2_rows, dot_in2_cols, &dot_out_buf, &dot_out_rows, &dot_out_cols);
+    for (size_t i = 0; i < dot_out_rows; i++) {
+        for (size_t j = 0; j < dot_out_cols; j++) {
+            printf("%1.2f ", *(dot_out_buf+dot_out_cols*i+j));
+        }
+        printf("\n");
+    }
+    printf("\n");
+
+    double *const_out_buf;
+    size_t const_out_size;
+    libmatrix_const_product(dot_out_buf, dot_out_cols * dot_out_rows, 0.5, &const_out_buf, &const_out_size);
+    for (size_t i = 0; i < dot_out_rows; i++) {
+        for (size_t j = 0; j < dot_out_cols; j++) {
+            printf("%1.2f ", *(const_out_buf+dot_out_cols*i+j));
+        }
+        printf("\n");
+    }
+    printf("\n");
+    free(const_out_buf);
+    free(dot_out_buf);
 
     double data_relu[] = {-0.33, 0.33, 0, -28394, 281022};
     libmatrix_relu_prime(data_relu, 5);

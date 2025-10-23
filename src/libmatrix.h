@@ -14,8 +14,8 @@
  * 
  * rows - The amount of rows in the matrix
  * columns - The amount of columns in the matrix
- * out_buf - A pointer to the matrix to be written to
- * out_size - A pointer to the number of elements in the matrix to be written to
+ * out_buf - A pointer to where the matrix should be written to
+ * out_size - A pointer to where the number of elements in the matrix should be written to
  */
 uint8_t libmatrix_generate_weights(uint64_t rows, uint64_t columns, double **out_buf, size_t *out_size);
 
@@ -24,8 +24,8 @@ uint8_t libmatrix_generate_weights(uint64_t rows, uint64_t columns, double **out
  * 
  * in_buf - The matrix to be read from
  * in_size - The number of elements in the matrix to be read from
- * out_buf - A pointer to the matrix to be written to
- * out_size - A pointer to the number of elements in the matrix to be written to
+ * out_buf - A pointer to where the matrix should be written to
+ * out_size - A pointer to where the number of elements in the matrix should to be written to
  */
 uint8_t libmatrix_relu(double *in_buf, size_t in_size, double **out_buf, size_t *out_size);
 
@@ -65,5 +65,31 @@ uint8_t libmatrix_predict(double *buf, size_t size, size_t *result);
  * out_cols - A pointer to where the amount of columns in that matrix should be written to
  */
 uint8_t libmatrix_transpose(double *in_buf, size_t in_rows, size_t in_cols, double **out_buf, size_t *out_rows, size_t *out_cols);
+
+/**
+ * Applies the dot product on the given matrices
+ * 
+ * in1_buf - The matrix to multiply with
+ * in1_rows - The amount of rows in that matrix
+ * in1_cols - The amount of columns in that matrix
+ * in2_buf - The other matrix to multiply with
+ * in2_rows - The amount of rows in that matrix
+ * in2_cols - The amount of columns in that matrix
+ * out_buf - A pointer to where the resulting matrix should be written to
+ * out_rows - A pointer to where the amount of rows in that matrix should be written to
+ * out_cols - A pointer to where the amount of columns in that matrix should be written to
+ */
+uint8_t libmatrix_dot_product(double *in1_buf, size_t in1_rows, size_t in1_cols, double *in2_buf, size_t in2_rows, size_t in2_cols, double **out_buf, size_t *out_rows, size_t *out_cols);
+
+/**
+ * Multiplies every value in the matrix by a given constant
+ * 
+ * in_buf - The matrix to multiply with
+ * in_size - The number of elements in the matrix to be read from
+ * constant - The constant to multiply with
+ * out_buf - A pointer to where the resulting matrix should be written to
+ * out_size - A pointer to where the number of elements in the matrix should to be written to
+ */
+uint8_t libmatrix_const_product(double *in_buf, size_t in_size, double constant, double **out_buf, size_t *out_size);
 
 #endif // LIBMATRIX_H
