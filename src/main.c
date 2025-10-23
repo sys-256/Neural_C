@@ -7,8 +7,6 @@
 #include "libneural_train.h"
 
 int main() {
-    // TODO: set pointers to NULL after free
-
     // START: test libneural_helper_generate_weights, libneural_helper_relu
     double *relu_data_in, *relu_data_out;
 
@@ -27,7 +25,9 @@ int main() {
     printf("\n");
     printf("\n");
     free(relu_data_in);
+    relu_data_in = NULL;
     free(relu_data_out);
+    relu_data_out = NULL;
     // END: test libneural_helper_generate_weights, libneural_helper_relu
 
     // START: test libneural_helper_relu_prime
@@ -81,6 +81,7 @@ int main() {
     }
     printf("\n");
     free(transpose_out_buf);
+    transpose_out_buf = NULL;
     // END: test libneural_matrix_transpose
     
     // START: test libneural_matrix_dot_product, libneural_matrix_hadamard_product, libneural_matrix_const_product
@@ -124,6 +125,7 @@ int main() {
     }
     printf("\n");
     free(dot_out_buf);
+    dot_out_buf = NULL;
     // END: test libneural_matrix_dot_product, libneural_matrix_const_product
     
     // START: test libneural_matrix_minus
@@ -184,6 +186,7 @@ int main() {
         printf("%d\n", *(idx_data+i));
     }
     free(idx_data);
+    idx_data = NULL;
     printf("\n");
 
     read_idx("data/train-images-idx3-ubyte", &idx_data, &idx_data_size);
@@ -195,6 +198,7 @@ int main() {
         printf("\n");
     }
     free(idx_data);
+    idx_data = NULL;
     // END: test read_idx
 
     return 0;

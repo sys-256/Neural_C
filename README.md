@@ -1,8 +1,7 @@
 # Neural_S
 
 ## Todo
-- Rewrite in C
-- Optimize C version (redunant variable assignments, remove libmatrix_transpose maybe)
+- Finish rewrite in C
 
 ## Resources
 - Basic neural network: https://www.geeksforgeeks.org/numpy/implementation-of-neural-network-from-scratch-using-numpy/
