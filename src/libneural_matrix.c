@@ -29,19 +29,16 @@ uint8_t libneural_matrix_dot_product(double *input1, size_t input1_rows, size_t 
     return LIBNEURAL_MATRIX_OK;
 }
 
-uint8_t libneural_matrix_const_product(double *input, size_t input_size, double constant, double **out_buf) {
-    *out_buf = malloc(input_size * sizeof(double)); // Allocate memory, out_buf is of type double
-    if (!*out_buf) return LIBNEURAL_MATRIX_ERR_OOM; // Out of memory
-
-    // Copy input element * constant into every element of the output
+uint8_t libneural_matrix_const_product(double *input, size_t input_size, double constant) {
+    // Copy element * constant into every element
     for (size_t i = 0; i < input_size; i++) {
-        *(*out_buf+i) = *(input+i) * constant;
+        *(input+i) *= constant;
     }
     return LIBNEURAL_MATRIX_OK;
 }
 
 uint8_t libneural_matrix_minus(double *input1, double *input2, size_t input_size, double **output) {
-    *output = malloc(input_size * sizeof(double)); // Allocate memory, out_buf is of type double
+    *output = malloc(input_size * sizeof(double)); // Allocate memory, output is of type double
     if (!*output) return LIBNEURAL_MATRIX_ERR_OOM; // Out of memory
 
     // Copy input1 element + input2 element into every element of the output

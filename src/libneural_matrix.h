@@ -36,9 +36,8 @@ uint8_t libneural_matrix_dot_product(double *input1, size_t input1_rows, size_t 
  * input - The matrix to multiply with
  * input_size - The number of elements in that matrix
  * constant - The constant to multiply with
- * output - A pointer to where the resulting matrix should be written to
  */
-uint8_t libneural_matrix_const_product(double *input, size_t input_size, double constant, double **output);
+uint8_t libneural_matrix_const_product(double *input, size_t input_size, double constant);
 
 /**
  * Subtracts two given matrices
