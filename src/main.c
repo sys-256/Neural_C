@@ -16,6 +16,28 @@ int main() {
     printf("\n");
     free(data_in);
     free(data_out);
+    
+    double in_buf[] = {1.0, 2.0, 3.0, 4.0, 5.0, 6.0};
+    size_t in_rows = 3, in_cols = 2;
+    double *out_buf;
+    size_t out_rows, out_cols;
+
+    libmatrix_transpose(in_buf, in_rows, in_cols, &out_buf, &out_rows, &out_cols);
+    
+    for (size_t i = 0; i < in_rows; i++) {
+        for (size_t j = 0; j < in_cols; j++) {
+            printf("%1.0f ", *(in_buf+in_cols*i+j));
+        }
+        printf("\n");
+    }
+    for (size_t i = 0; i < out_rows; i++) {
+        for (size_t j = 0; j < out_cols; j++) {
+            printf("%1.0f ", *(out_buf+out_cols*i+j));
+        }
+        printf("\n");
+    }
+    printf("\n");
+    free(out_buf);
 
     double data_relu[] = {-0.33, 0.33, 0, -28394, 281022};
     libmatrix_relu_prime(data_relu, 5);

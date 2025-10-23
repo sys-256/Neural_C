@@ -54,4 +54,16 @@ int libmatrix_softmax(double *buf, size_t size);
  */
 int libmatrix_predict(double *buf, size_t size, size_t *result);
 
+/**
+ * Transposes the given matrix
+ * 
+ * in_buf - The matrix to transpose
+ * in_rows - The amount of rows in that matrix
+ * in_cols - The amount of columns in that matrix
+ * out_buf - A pointer to where the transposed matrix should be written to
+ * out_rows - A pointer to where the amount of rows in that matrix should be written to
+ * out_cols - A pointer to where the amount of columns in that matrix should be written to
+ */
+int libmatrix_transpose(double *in_buf, size_t in_rows, size_t in_cols, double **out_buf, size_t *out_rows, size_t *out_cols);
+
 #endif // LIBMATRIX_H

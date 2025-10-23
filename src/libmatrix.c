@@ -91,3 +91,17 @@ int libmatrix_predict(double *buf, size_t size, size_t *result) {
     }
     return LIBMATRIX_OK;
 }
+
+int libmatrix_transpose(double *in_buf, size_t in_rows, size_t in_cols, double **out_buf, size_t *out_rows, size_t *out_cols) {
+    *out_rows = in_cols;
+    *out_cols = in_rows;
+    *out_buf = malloc(*out_rows * *out_cols * sizeof(double)); // Allocate memory, out_buf is of type double
+    if (!*out_buf) return LIBMATRIX_ERR_OOM; // Out of memory
+
+    for (size_t i = 0; i < *out_rows; i++) {
+        for (size_t j = 0; j < *out_cols; j++) {
+            *(*out_buf+*out_cols*i+j) = *(in_buf+in_cols*j+i); // Set [A.T]_ij to [A]_ji
+        }
+    }
+    return LIBMATRIX_OK;
+}
