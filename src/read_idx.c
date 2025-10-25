@@ -37,7 +37,8 @@ uint8_t read_idx(char *filename, uint8_t **out_buf, size_t *out_size) {
         return READ_IDX_OK;
     } else if (magic_byte == 2049) { // If labels
         uint32_t num_labels;
-        fread(&num_labels, 4, 1, file); // Read 1 item of 4 bytes
+        file_error = fread(&num_labels, 4, 1, file); // Read 1 item of 4 bytes
+        if (file_error < 1) return READ_IDX_ERR_IO; // Return error if we didn't read 1 item 
         num_labels = bswap_32(num_labels); // Swap endianness
         *out_size = num_labels;
 
