@@ -197,9 +197,44 @@ int main() {
         }
         printf("\n");
     }
+    printf("\n");
     free(idx_data);
     idx_data = NULL;
     // END: test read_idx
+    
+    // START: test libneural_train_train
+    double *w1, *w2;
+    size_t input_size = 784, hidden_size = 20, output_size = 10;
+    double alpha = 0.01;
+    size_t iterations = 15;
+    libneural_helper_generate_weights(input_size, hidden_size, &w1);
+    libneural_helper_generate_weights(hidden_size, output_size, &w2);
+
+    uint8_t *train_images, *train_labels;
+    size_t train_images_size, train_labels_size;
+
+    read_idx("data/train-images-idx3-ubyte", &train_images, &train_images_size);
+    read_idx("data/train-labels-idx1-ubyte", &train_labels, &train_labels_size);
+
+    // Convert array of uint8_t to array of doubles
+    double *train_images_converted = malloc(train_images_size * sizeof(double));
+    for (size_t i = 0; i < train_images_size; i++) {
+        *(train_images_converted+i) = (double) *(train_images+i);
+    }
+    libneural_matrix_const_product(train_images_converted, train_images_size, 1.0/255.0); // Divide by max value of pixel
+
+    libneural_train_train(train_images_converted, w1, w2, train_labels, input_size, hidden_size, output_size, train_labels_size, alpha, iterations);
+    free(w1);
+    w1 = NULL;
+    free(w2);
+    w2 = NULL;
+    free(train_images);
+    train_images = NULL;
+    free(train_labels);
+    train_labels = NULL;
+    free(train_images_converted);
+    train_images_converted = NULL;
+    // END: test libneural_train_train
 
     return 0;
 }

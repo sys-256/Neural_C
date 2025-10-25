@@ -38,4 +38,20 @@ uint8_t libneural_train_feed_forward(double *input, double *w1, double *w2, size
  */
 uint8_t libneural_train_back_propagation(double *input, double *w1, double *w2, double *output, size_t input_size, size_t hidden_size, size_t output_size, double alpha);
 
+/**
+ * Trains the model
+ * 
+ * input - The array of values of the input layer
+ * w1 - A input_size x hidden_size matrix of weights
+ * w2 - A hidden_size x output_size matrix of weights
+ * output - The array of expected values of the output layer
+ * input_size - The amount of nodes in the input layer
+ * hidden_size - The amount of nodes in the hidden layer
+ * output_size - The amount of nodes in the output layer
+ * m - The amount of values
+ * alpha - The learning rate
+ * iterations - How many times to train on each value
+ */
+uint8_t libneural_train_train(double *input, double *w1, double *w2, uint8_t *output, size_t input_size, size_t hidden_size, size_t output_size, size_t m, double alpha, size_t iterations);
+
 #endif // LIBNEURAL_TRAIN_H
