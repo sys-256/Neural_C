@@ -54,4 +54,18 @@ uint8_t libneural_train_back_propagation(double *input, double *w1, double *w2, 
  */
 uint8_t libneural_train_train(double *input, double *w1, double *w2, uint8_t *output, size_t input_size, size_t hidden_size, size_t output_size, size_t m, double alpha, size_t iterations);
 
+/**
+ * Tests the model
+ * 
+ * input - The array of values of the input layer
+ * w1 - A input_size x hidden_size matrix of weights
+ * w2 - A hidden_size x output_size matrix of weights
+ * output - The array of expected values of the output layer
+ * input_size - The amount of nodes in the input layer
+ * hidden_size - The amount of nodes in the hidden layer
+ * output_size - The amount of nodes in the output layer
+ * m - The amount of values
+ */
+uint8_t libneural_train_test(double *input, double *w1, double *w2, uint8_t *output, size_t input_size, size_t hidden_size, size_t output_size, size_t m);
+
 #endif // LIBNEURAL_TRAIN_H

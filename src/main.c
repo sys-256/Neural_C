@@ -202,19 +202,21 @@ int main() {
     idx_data = NULL;
     // END: test read_idx
     
-    // START: test libneural_train_train
+    // START: test libneural_train_train, libneural_train_test
     double *w1, *w2;
     size_t input_size = 784, hidden_size = 20, output_size = 10;
     double alpha = 0.01;
-    size_t iterations = 15;
+    size_t iterations = 25;
     libneural_helper_generate_weights(input_size, hidden_size, &w1);
     libneural_helper_generate_weights(hidden_size, output_size, &w2);
 
-    uint8_t *train_images, *train_labels;
-    size_t train_images_size, train_labels_size;
+    uint8_t *train_images, *train_labels, *test_images, *test_labels;
+    size_t train_images_size, train_labels_size, test_images_size, test_labels_size;
 
     read_idx("data/train-images-idx3-ubyte", &train_images, &train_images_size);
     read_idx("data/train-labels-idx1-ubyte", &train_labels, &train_labels_size);
+    read_idx("data/t10k-images-idx3-ubyte", &test_images, &test_images_size);
+    read_idx("data/t10k-labels-idx1-ubyte", &test_labels, &test_labels_size);
 
     // Convert array of uint8_t to array of doubles
     double *train_images_converted = malloc(train_images_size * sizeof(double));
@@ -223,7 +225,15 @@ int main() {
     }
     libneural_matrix_const_product(train_images_converted, train_images_size, 1.0/255.0); // Divide by max value of pixel
 
+    // Convert array of uint8_t to array of doubles
+    double *test_images_converted = malloc(test_images_size * sizeof(double));
+    for (size_t i = 0; i < test_images_size; i++) {
+        *(test_images_converted+i) = (double) *(test_images+i);
+    }
+    libneural_matrix_const_product(test_images_converted, test_images_size, 1.0/255.0); // Divide by max value of pixel
+
     libneural_train_train(train_images_converted, w1, w2, train_labels, input_size, hidden_size, output_size, train_labels_size, alpha, iterations);
+    libneural_train_test(test_images_converted, w1, w2, test_labels, input_size, hidden_size, output_size, test_labels_size);
     free(w1);
     w1 = NULL;
     free(w2);
@@ -234,7 +244,13 @@ int main() {
     train_labels = NULL;
     free(train_images_converted);
     train_images_converted = NULL;
-    // END: test libneural_train_train
+    free(test_images);
+    test_images = NULL;
+    free(test_labels);
+    test_labels = NULL;
+    free(test_images_converted);
+    test_images_converted = NULL;
+    // END: test libneural_train_train, libneural_train_test
 
     return 0;
 }
