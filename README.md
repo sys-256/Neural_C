@@ -1,7 +1,6 @@
 # Neural_C
 
 ## TODO:
-- check todos (in project)
 - update performance figures
 - add license
 

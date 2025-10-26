@@ -12,7 +12,7 @@
 
 /**
  * Reads an IDX file
- * 
+ *
  * filename - The file to read from
  * out_buf - A pointer to the array to be written to
  * out_size - A pointer to the number of elements in the array to be written to

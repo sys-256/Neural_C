@@ -11,7 +11,7 @@
 
 /**
  * Executes the feed forward algorithm
- * 
+ *
  * input - The values of the input layer
  * w1 - A input_size x hidden_size matrix of weights
  * w2 - A hidden_size x output_size matrix of weights
@@ -26,7 +26,7 @@ uint8_t libneural_train_feed_forward(double *input, double *w1, double *w2, size
 
 /**
  * Executes the back propagation algorithm by updating the weights
- * 
+ *
  * input - The values of the input layer
  * w1 - A input_size x hidden_size matrix of weights
  * w2 - A hidden_size x output_size matrix of weights
@@ -40,7 +40,7 @@ uint8_t libneural_train_back_propagation(double *input, double *w1, double *w2, 
 
 /**
  * Trains the model
- * 
+ *
  * input - The array of values of the input layer
  * w1 - A input_size x hidden_size matrix of weights
  * w2 - A hidden_size x output_size matrix of weights
@@ -56,7 +56,7 @@ uint8_t libneural_train_train(double *input, double *w1, double *w2, uint8_t *ou
 
 /**
  * Tests the model
- * 
+ *
  * input - The array of values of the input layer
  * w1 - A input_size x hidden_size matrix of weights
  * w2 - A hidden_size x output_size matrix of weights
