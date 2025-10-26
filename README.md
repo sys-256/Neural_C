@@ -1,7 +1,7 @@
 # Neural_C
 
 ## TODO:
-- update performance figures
+- add how to improve the model
 - add license
 
 ## About
@@ -18,9 +18,9 @@ I wanted to learn more about neural networks, linear algebra and programming in 
 ## Performance
 |Implementation|Time to train and test|
 |--------------|----------------------|
-|C, without -O3|6m59s                 |
-|C, with -O3   |1m12s                 |
-|Python        |2m00s                 |
+|C, without -O3|6m42s                 |
+|C, with -O3   |1m06s                 |
+|Python        |2m03s                 |
 
 ## Possible performance improvements
 - Reuse `z1`, `a1` and `a2` from feed forward as a back propagation parameter during training to avoid doing the same calculations twice

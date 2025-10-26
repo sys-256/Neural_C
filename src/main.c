@@ -83,7 +83,7 @@ int main() {
 	free(transpose_out_buf);
 	transpose_out_buf = NULL;
 	// END: test libneural_matrix_transpose
-		
+
 	// START: test libneural_matrix_dot_product, libneural_matrix_hadamard_product, libneural_matrix_const_product
 	double dot_in1_buf[] = {1.0, 2.0, 3.0, 4.0, 5.0, 6.0};
 	size_t dot_in1_rows = 3, dot_in1_cols = 2;
@@ -114,7 +114,7 @@ int main() {
 	}
 	printf("\n");
 
-		
+
 	libneural_matrix_const_product(dot_out_buf, dot_in1_rows * dot_in2_cols, 0.5);
 	printf("libneural_matrix_const_product:\n");
 	for (size_t i = 0; i < dot_in2_cols; i++) {
@@ -127,7 +127,7 @@ int main() {
 	free(dot_out_buf);
 	dot_out_buf = NULL;
 	// END: test libneural_matrix_dot_product, libneural_matrix_const_product
-		
+
 	// START: test libneural_matrix_minus
 	double minus_in1_buf[] = {1.0, 2.6, 3.2, 4.0, 5.0, 6.0};
 	double minus_in2_buf[] = {1.0, 3.4, 5.1, 2.1, 4.0, 6.0};
@@ -143,7 +143,7 @@ int main() {
 	}
 	printf("\n");
 	// END: test libneural_matrix_minus
-		
+
 	// START: test libneural_train_feed_forward, libneural_train_back_propgation
 	// Test with 3-5-2 model and random input and weights
 	double back_prop_input[] = {0.840, 0.394, 0.783};
@@ -151,10 +151,10 @@ int main() {
 	double back_prop_w2[] = {0.806, 0.800, 0.804, 0.131, 0.141, 0.912, 0.084, 0.624, 0.238, 0.373};
 	double back_prop_output[] = {0, 1};
 	double *back_prop_z1, *back_prop_a1, *back_prop_a2;
-		
+
 	libneural_train_feed_forward(back_prop_input, back_prop_w1, back_prop_w2, 3, 5, 2, &back_prop_z1, &back_prop_a1, &back_prop_a2);
 	printf("libneural_train_feed_forward: %.15f %0.15f\n", *(back_prop_a2), *(back_prop_a2+1));
-		
+
 	libneural_train_back_propagation(back_prop_input, back_prop_w1, back_prop_w2, back_prop_output, 3, 5, 2, 0.5);
 	printf("updated w1: ");
 	for (size_t i = 0; i < 3*5; i++) {
@@ -167,7 +167,7 @@ int main() {
 	}
 	printf("\n");
 	printf("\n");
-		
+
 	free(back_prop_z1);
 	free(back_prop_a1);
 	free(back_prop_a2);
@@ -179,7 +179,7 @@ int main() {
 	// START: test read_idx
 	uint8_t *idx_data;
 	size_t idx_data_size;
-		
+
 	read_idx("data/train-labels-idx1-ubyte", &idx_data, &idx_data_size);
 	printf("We have %ld labels, only print 5.\n", idx_data_size);
 	for (int i = 0; i < 5; i++) {
@@ -201,7 +201,7 @@ int main() {
 	free(idx_data);
 	idx_data = NULL;
 	// END: test read_idx
-		
+
 	// START: test libneural_train_train, libneural_train_test
 	double *w1, *w2;
 	size_t input_size = 784, hidden_size = 20, output_size = 10;
