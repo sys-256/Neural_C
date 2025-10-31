@@ -12,9 +12,10 @@ DEPS := $(OBJS:.o=.d)
 
 INC_DIRS := $(shell find $(SRC_DIRS) -type d)
 INC_FLAGS := $(addprefix -I,$(INC_DIRS))
+SAN_FLAGS := -fstrict-aliasing -fsanitize=address -fstack-protector
 
-CFLAGS := $(CFLAGS) -Wall -Wextra -g
-LDFLAGS := -lm
+CFLAGS := $(CFLAGS) $(SAN_FLAGS) -Wall -Wextra -Werror -pedantic -g
+LDFLAGS := $(SAN_FLAGS) -lm
 CPPFLAGS := $(INC_FLAGS) -MMD -MP
 
 $(BUILD_DIR)/$(TARGET_EXEC): $(OBJS)
